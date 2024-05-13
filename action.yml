@@ -17,7 +17,7 @@ inputs:
 outputs:
   output:
     description: "Path to the output folder"
-
+    
 runs:
   using: "composite"
   
