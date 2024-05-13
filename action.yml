@@ -29,7 +29,12 @@ runs:
           docker run --rm -v ${{ inputs.vault }}:/vault -v /tmp/output:/output spartacus04/obsidian-webpage-export:${{ inputs.version }}
           exit
         fi
+
         docker run --rm -v ${{ inputs.vault }}:/vault -v ${{ inputs.config }}:/config.json -v /tmp/output:/output spartacus04/obsidian-webpage-export:${{ inputs.version }}
+
+        if [ $? -eq 137 ]; then
+          exit 0
+        fi
    
     - name: Set output
       id: set-output
