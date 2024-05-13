@@ -25,6 +25,10 @@ runs:
     - name: Run docker container
       id: run-docker
       run: |
+        if [ -z "${{ inputs.config }}" ]; then
+          docker run --rm -v ${{ inputs.vault }}:/vault -v /tmp/output:/output spartacus04/obsidian-webpage-export:${{ inputs.version }} /vault /output
+          exit
+        fi
         docker run --rm -v ${{ inputs.vault }}:/vault -v ${{ inputs.config }}:/config.json -v /tmp/output:/output spartacus04/obsidian-webpage-export:${{ inputs.version }} /vault /config.json /output
    
     - name: Set output
