@@ -1,0 +1,35 @@
+name: "Export Obsidian vault to HTML"
+description: "Exports the Obsidian vault to HTML"
+
+inputs:
+  vault:
+	description: "Path to the Obsidian vault"
+	required: true
+	default: "."
+  config:
+	description: "Path to the configuration file"
+	required: false
+  version:
+    description: "Version of the plugin"
+	required: false
+	default: "latest"
+  
+outputs:
+  output:
+	description: "Path to the output folder"
+
+runs:
+  using: "composite"
+  steps:
+    - name: Run docker container
+	  id: run-docker
+	  uses: docker://KosmosisDire/obsidian-webpage-export:${{ inputs.version }}
+	  with:
+		args: |
+		  -v ${{ inputs.vault }}:/vault
+		  -v ${{ inputs.config }}:/config.json
+		  -v /tmp/output:/output
+		  /vault /config.json /output
+	- name: Set output
+	  id: set-output
+	  run: echo ::set-output name=output::/tmp/output
