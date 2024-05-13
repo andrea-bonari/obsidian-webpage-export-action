@@ -24,13 +24,9 @@ runs:
   steps:
     - name: Run docker container
       id: run-docker
-      uses: docker://spartacus04/obsidian-webpage-export:${{ inputs.version }}
-      with:
-      args: |
-        -v ${{ inputs.vault }}:/vault
-        -v ${{ inputs.config }}:/config.json
-        -v /tmp/output:/output
-        /vault /config.json /output
+      run: |
+        docker run --rm -v ${{ inputs.vault }}:/vault -v ${{ inputs.config }}:/config.json -v /tmp/output:/output spartacus04/obsidian-webpage-export:${{ inputs.version }} /vault /config.json /output
+   
     - name: Set output
       id: set-output
       run: echo ::set-output name=output::/tmp/output
