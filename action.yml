@@ -27,12 +27,12 @@ runs:
       run: |
         set +e
 
-        mkdir -p /tmp/output
+        mkdir -p /output
 
         if [ -z "${{ inputs.config }}" ]; then
-          docker run --rm -v ${{ inputs.vault }}:/vault -v /tmp/output:/output spartacus04/obsidian-webpage-export:${{ inputs.version }}
+          docker run --rm -v ${{ inputs.vault }}:/vault -v /output:/output spartacus04/obsidian-webpage-export:${{ inputs.version }}
         else
-          docker run --rm -v ${{ inputs.vault }}:/vault -v ${{ inputs.config }}:/config.json -v /tmp/output:/output spartacus04/obsidian-webpage-export:${{ inputs.version }}
+          docker run --rm -v ${{ inputs.vault }}:/vault -v ${{ inputs.config }}:/config.json -v /output:/output spartacus04/obsidian-webpage-export:${{ inputs.version }}
         fi
 
         if [ $? -eq 137 ]; then
@@ -41,4 +41,4 @@ runs:
    
     - name: Set output
       id: set-output
-      run: echo "output=/tmp/output" >> $GITHUB_OUTPUT
+      run: echo "output=/output" >> $GITHUB_OUTPUT
