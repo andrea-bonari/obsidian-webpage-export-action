@@ -30,10 +30,12 @@ runs:
         mkdir -p /output
 
         if [ -z "${{ inputs.config }}" ]; then
-          docker run --rm -v ${{ inputs.vault }}:/vault -v /output:/output spartacus04/obsidian-webpage-export:${{ inputs.version }} | echo
+          docker run --rm -v ${{ inputs.vault }}:/vault -v /output:/output spartacus04/obsidian-webpage-export:${{ inputs.version }} >> /log.txt
         else
-          docker run --rm -v ${{ inputs.vault }}:/vault -v ${{ inputs.config }}:/config.json -v /output:/output spartacus04/obsidian-webpage-export:${{ inputs.version }} | echo
+          docker run --rm -v ${{ inputs.vault }}:/vault -v ${{ inputs.config }}:/config.json -v /output:/output spartacus04/obsidian-webpage-export:${{ inputs.version }} >> /log.txt
         fi
+
+        cat /log.txt
 
         if [ $? -eq 137 ]; then
           exit 0
