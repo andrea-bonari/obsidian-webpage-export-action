@@ -24,6 +24,8 @@ runs:
   steps:
     - name: Run docker container
       id: run-docker
+      shell: bash
+    
       run: |
         set +e
 
@@ -43,4 +45,5 @@ runs:
    
     - name: Set output
       id: set-output
+    shell: bash
       run: echo "output=/output" >> $GITHUB_OUTPUT
